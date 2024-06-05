@@ -1,0 +1,4 @@
+---
+minor_changes:
+  - Added support for providing OpenShift auth via api key for ocp install
+...
