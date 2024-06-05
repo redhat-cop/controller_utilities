@@ -4,6 +4,15 @@ infra.aap\_Utilities Release Notes
 
 .. contents:: Topics
 
+v2.5.1
+======
+
+Minor Changes
+-------------
+
+- Added support for providing OpenShift auth via api key for ocp install
+- Changed isntances of ansible.builtin.yum module to dnf, this module is backwards comapatible, but the yum module has been removed.
+
 v2.5.0
 ======
 
