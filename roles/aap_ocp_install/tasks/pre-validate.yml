@@ -104,6 +104,12 @@
   when:
     - ( 'hub' in ansible_run_tags ) or ( 'all' in ansible_run_tags and aap_ocp_install_hub is defined )
 
+- name: Ensure eda variables are set
+  ansible.builtin.include_tasks:
+    file: pre-validate-eda.yml
+  when:
+    - ( 'eda' in ansible_run_tags ) or ( 'all' in ansible_run_tags and aap_ocp_install_eda is defined )
+
 - name: Ensure no validation errors found
   ansible.builtin.debug:
     msg:
