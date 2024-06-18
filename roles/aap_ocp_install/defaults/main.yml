@@ -29,6 +29,6 @@
 # aap_ocp_install_eda:
 #   namespace:
 #   instance_name:
-#   replicas: 
+#   replicas:
 #   link_text:
 ...

@@ -12,7 +12,7 @@
       ns_name: "{{ aap_ocp_install_eda['namespace'] }}"
   when:
     - aap_ocp_install_eda['namespace'] is defined
-    
+
 - name: Create EDA instance
   kubernetes.core.k8s:
     host: "{{ __aap_ocp_install_auth_results['openshift_auth']['host'] }}"
