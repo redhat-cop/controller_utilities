@@ -20,24 +20,20 @@
       Authorization: "Bearer {{ __aap_setup_down_login.json.access_token }}"
   register: __aap_setup_down_output
 
-- name: Simplify the list of possible downloads
+- name: Select the Specified installer to download
   ansible.builtin.set_fact:
-    __aap_setup_down_images: "{{ __aap_setup_down_output.json.body | selectattr('filename', 'match', ((aap_setup_containerized | bool) | ternary('ansible-automation-platform-containerized-setup', 'ansible-automation-platform-setup'))) | sort(attribute='datePublished', reverse=True) }}"
+    __aap_setup_down_images: "{{ __aap_setup_down_output.json.body | selectattr('filename', 'match', ((aap_setup_containerized | bool) | ternary('ansible-automation-platform-containerized-setup', 'ansible-automation-platform-setup'))) | sort(attribute='datePublished', reverse=True) | selectattr('filename', 'search', (aap_setup_down_type | string) + '-' + (aap_setup_down_version | string)) }}"
 
 - name: Downloading the latest installer of type {{ aap_setup_down_type }}
   ansible.builtin.get_url:
-    url: "{{ item.downloadHref }}"
-    dest: "{{ aap_setup_down_dest_dir }}/{{ item.filename }}"
+    url: "{{ __aap_setup_down_images[:3][0].downloadHref }}"
+    dest: "{{ aap_setup_down_dest_dir }}/{{ __aap_setup_down_images[:3][0].filename }}"
     mode: 0644
     headers:
       Authorization: "Bearer {{ __aap_setup_down_login.json.access_token }}"
-  loop: "{{ __aap_setup_down_images[:3] }}"
-  when:
-    - ((aap_setup_down_type | string) + '-' + (aap_setup_down_version | string)) in item.filename
-    - ((aap_setup_containerized | bool) | ternary('ansible-automation-platform-containerized-setup', 'ansible-automation-platform-setup')) in item.filename
   register: __aap_setup_down_downloads
 
 - name: Extract the name of the downloaded installer to aap_setup_down_installer_file
   ansible.builtin.set_fact:
-    aap_setup_down_installer_file: "{{ (__aap_setup_down_downloads.results | selectattr('dest', 'defined') | map(attribute='dest') | list)[0] }}"
+    aap_setup_down_installer_file: "{{ __aap_setup_down_downloads.dest }}"
 ...

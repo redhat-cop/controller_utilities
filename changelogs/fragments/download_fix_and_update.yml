@@ -1,0 +1,7 @@
+---
+bugfixes:
+  - Fixed an issue where where download would error trying to download a second version of the installer.
+minor_changes:
+  - Added ability to download the containerized installer.
+  - Tweaked how the installer to download is choosen, this should have no effective changes.
+...
