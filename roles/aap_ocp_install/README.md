@@ -60,12 +60,19 @@ If the variable is omitted the corresponding component will not be installed (e.
 | projects_storage_size        |          | 8Gi                                     | Size of /var/lib/projects persistent volume claim (PVC)                                                                |
 | link_text                    |          | Automation Controller (<INSTANCE_NAME>) | Text used for creating the OCP application link                                                                        |
 
-| ### aap_ocp_install_hub keys |### aap_ocp_install_hub keys
+### aap_ocp_install_hub keys
 
 | Key Name      | Required | Default Value                    | Description                                     |
 |---------------|:--------:|----------------------------------|-------------------------------------------------|
 | instance_name | Yes      | None                             | Name of the hub instance to create              |
 | link_text     |          | Automation Hub (<INSTANCE_NAME>) | Text used for creating the OCP application link |
+
+### aap_ocp_install_eda keys
+
+| Key Name      | Required | Default Value                    | Description                                     |
+|---------------|:--------:|----------------------------------|-------------------------------------------------|
+| instance_name | Yes      | None                             | Name of the EDA instance to create              |
+| link_text     |          | EDA Controller (<INSTANCE_NAME>) | Text used for creating the OCP application link |
 
 ## Dependencies
 
@@ -94,6 +101,8 @@ Including an example of how to use your role (for instance, with variables passe
       instance_name: automationcontroller
     aap_ocp_install_hub:
       instance_name: automationhub
+    aap_ocp_install_eda:
+      instance_name: edacontroller
 
   roles:
     - infra.aap_utilities.aap_ocp_install
@@ -107,3 +116,4 @@ Including an example of how to use your role (for instance, with variables passe
 ## Author Information
 
 Brant Evans
+Derek Waters
