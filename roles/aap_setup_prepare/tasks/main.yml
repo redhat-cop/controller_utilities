@@ -34,7 +34,7 @@
   ansible.builtin.template:
     src: inventory.j2
     dest: "{{ aap_setup_prep_setup_dir }}/inventory"
-    mode: "ug=rw,o=r"
+    mode: "640"
   when: aap_setup_prep_process_template | bool
 
 - name: Apply relevant fixes / workarounds
