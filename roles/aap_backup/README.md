@@ -11,7 +11,7 @@ None
 Available variables are listed below, along with default values defined (see defaults/main.yml)
 
 ```yaml
-aap_setup_working_dir:  # Must be set, though if the aap_setup_prepare role has been run prior, a fact will be set.
+aap_setup_prep_setup_dir:  # Must be set, though if the aap_setup_prepare role has been run prior, a fact will be set.
 aap_backup_dest: "/root"
 ```
 
@@ -31,7 +31,7 @@ ansible-playbook playbook.yml -e @aap_vars.yml controller
   hosts: localhost
   become: true
   vars:
-    aap_setup_working_dir: /root/ansible-automation-platform-installer/
+    aap_setup_prep_setup_dir: /root/ansible-automation-platform-installer/
     aap_backup_dest: /aap_backups/
   roles:
     - infra.aap_utilities.aap_backup
