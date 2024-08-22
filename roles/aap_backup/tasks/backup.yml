@@ -1,4 +1,11 @@
 ---
+# Create directory
+- name: Create backup directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ aap_backup_dest }}"
+    mode: '0750'
+
 # Run the Setup to backup AAP
 - name: Run the Ansible AAP Setup Program with backup option
   become: true
