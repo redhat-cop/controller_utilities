@@ -1,16 +1,16 @@
 ---
-- name: Ensure controller instance name variable is set (block)
+- name: Ensure platform instance name variable is set (block)
   block:
-    - name: Ensure controller instance name variable is set
+    - name: Ensure paltform instance name variable is set
       ansible.builtin.assert:
         that:
-          - aap_ocp_install_controller['instance_name'] | default('', true) | length > 0
+          - aap_ocp_install_platform['instance_name'] | default('', true) | length > 0
         quiet: true
   rescue:
-    - name: Update validation errors fact - controller instance_name
+    - name: Update validation errors fact - platform instance_name
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
-          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['instance_name'] must be set"] }}
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_platform['instance_name'] must be set"] }}
 
 - name: Ensure controller admin username variable is set (block)
   when: aap_ocp_install_controller['admin_user'] is defined

@@ -1,0 +1,39 @@
+---
+apiVersion: automationhub.ansible.com/v1beta1
+kind: AnsibleAutomationPlatform
+metadata:
+  name: {{ aap_ocp_install_platform['instance_name'] }}
+  namespace: {{ aap_ocp_install_namespace }}
+spec:
+  # Platform
+  image_pull_policy: IfNotPresent
+  # Components
+  controller:
+    disabled: {{ aap_ocp_install_controller is not defined | bool }}
+    create_preload_data: {{ aap_ocp_install_controller['create_preload_data'] | default(true) | bool }}
+    garbage_collect_secrets: {{ aap_ocp_install_controller['garbage_collect_secrets'] | default(false) | bool }}
+    image_pull_policy: {{ aap_ocp_install_controller['image_pull_policy'] | default('IfNotPresent') }}
+    projects_persistence: {{ aap_ocp_install_controller['projects_persistence'] | default(false) | bool }}
+    projects_storage_size: {{ aap_ocp_install_controller['projects_storage_size'] | default('8Gi') }}
+    replicas: {{ aap_ocp_install_controller['replicas'] | default(1) | int }}
+    admin_user: {{ aap_ocp_install_controller['admin_user'] | default('admin') }}
+  
+  eda:
+    disabled: {{ aap_ocp_install_eda is not defined | bool }}
+    replicas: {{ aap_ocp_install_eda['replicas'] | default(1) | int }}
+  hub:
+    disabled: {{ aap_ocp_install_hub is not defined | bool }}
+
+    ## Modify to contain your RWM storage class name
+    storage_type: {{ aap_ocp_install_hub['storage_type'] | default('file') }}
+    {% if aap_ocp_install_hub['storage_type'] == 'file' %}
+        file_storage_storage_class: {{ aap_ocp_install_hub['storage_class'] }}
+        file_storage_size: {{ aap_ocp_install_hub['storage_size'] | default('10Gi') }}
+    {% elif aap_ocp_install_hub['storage_type'] == 'S3' %}
+        object_storage_s3_secret: {{ aap_ocp_install_hub['storage_s3_secret'] }} 
+    {% elif aap_ocp_install_hub['storage_type'] == 'azure' %}
+        object_storage_azure_secret: {{ aap_ocp_install_hub['storage_azure_secret'] }}
+    {% endif %}
+
+  lightspeed:
+    disabled: {{ aap_ocp_install_lightspeed is not defined | bool }}
