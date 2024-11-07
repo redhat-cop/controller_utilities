@@ -38,14 +38,16 @@ spec:
     disabled: false
     ## Modify to contain your RWM storage class name
     storage_type: {{ aap_ocp_install_hub['storage_type'] | default('file') }}
-    {% if aap_ocp_install_hub['storage_type'] == 'file' %}
-        file_storage_storage_class: {{ aap_ocp_install_hub['storage_class'] }}
-        file_storage_size: {{ aap_ocp_install_hub['storage_size'] | default('10Gi') }}
-    {% elif aap_ocp_install_hub['storage_type'] == 'S3' %}
-        object_storage_s3_secret: {{ aap_ocp_install_hub['storage_s3_secret'] }} 
-    {% elif aap_ocp_install_hub['storage_type'] == 'azure' %}
-        object_storage_azure_secret: {{ aap_ocp_install_hub['storage_azure_secret'] }}
-    {% endif %}
+{% if aap_ocp_install_hub['storage_type'] is defined and aap_ocp_install_hub['storage_type'] == 'file' %}
+{% if aap_ocp_install_hub['file_storage_storage_class'] is defined %}
+    file_storage_storage_class: {{ aap_ocp_install_hub['file_storage_storage_class'] | default('default') }}
+{% endif %}
+    file_storage_size: {{ aap_ocp_install_hub['file_storage_size'] | default('10Gi') }}
+{% elif aap_ocp_install_hub['storage_type'] is defined and aap_ocp_install_hub['storage_type'] == 'S3' %}
+    object_storage_s3_secret: {{ aap_ocp_install_hub['object_storage_s3_secret'] }} 
+{% elif aap_ocp_install_hub['storage_type'] is defined and aap_ocp_install_hub['storage_type'] == 'azure' %}
+    object_storage_azure_secret: {{ aap_ocp_install_hub['object_storage_azure_secret'] }}
+{% endif %}
 {% else %}
   hub:
     disabled: true

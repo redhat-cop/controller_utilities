@@ -138,4 +138,64 @@
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
           {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['projects_storage_size'] must be a number greater than 0 with a size (e.g. 12Gi or 10000M)"] }}
+
+
+
+
+- name: Ensure hub storage type is valid (block)
+  when: aap_ocp_install_hub is defined
+  block:
+    - name: Ensure hub storage type is valid
+      ansible.builtin.assert:
+        that:
+          - (aap_ocp_install_hub['storage_type']) is in ['file', 'S3', 'azure']
+        quiet: true
+  rescue:
+    - name: Update validation errors fact - storage_type
+      ansible.builtin.set_fact:
+        __aap_ocp_install_prevalidate_errors: >
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_hub['storage_type'] must be 'file', 'S3' or 'azure'"] }}
+
+- name: Ensure hub file storage settings are valid (block)
+  when: aap_ocp_install_hub['storage_type'] is defined and aap_ocp_install_hub['storage_type'] == 'file'
+  block:
+    - name: Ensure hub file storage settings are valid
+      ansible.builtin.assert:
+        that:
+          - (aap_ocp_install_hub['file_storage_size'] is not defined) or (aap_ocp_install_hub['file_storage_size'] | regex_replace('^(?P<size>[0-9]+)(?P<si>Ki|K|Mi|M|Gi|G|Ti|T|Pi|P|Ei|E)$', '\\g<size>') | int) > 0
+          - (aap_ocp_install_hub['file_storage_size'] is not defined) or (aap_ocp_install_hub['file_storage_size'] | regex_replace('^(?P<size>[0-9]+)(?P<si>Ki|K|Mi|M|Gi|G|Ti|T|Pi|P|Ei|E)$', '\\g<si>')) is in ['Ki','K','Mi','M','Gi','G','Ti','T','Pi','P','Ei','E']
+        quiet: true
+  rescue:
+    - name: Update validation errors fact - file storage_type
+      ansible.builtin.set_fact:
+        __aap_ocp_install_prevalidate_errors: >
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_hub['file_storage_size'] must be a number greater than 0 with a size (e.g. 12Gi or 10000M)"] }}
+
+- name: Ensure hub S3 storage settings are valid (block)
+  when: aap_ocp_install_hub['storage_type'] is defined and aap_ocp_install_hub['storage_type'] == 'S3'
+  block:
+    - name: Ensure hub S3 storage settings are valid
+      ansible.builtin.assert:
+        that:
+          - (aap_ocp_install_hub['object_storage_s3_secret']) is defined
+        quiet: true
+  rescue:
+    - name: Update validation errors fact - S3 secret
+      ansible.builtin.set_fact:
+        __aap_ocp_install_prevalidate_errors: >
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_hub['object_storage_s3_secret'] must be the name of a valid S3 storage secret name" }}
+
+- name: Ensure hub Azure storage settings are valid (block)
+  when: aap_ocp_install_hub['storage_type'] is defined and aap_ocp_install_hub['storage_type'] == 'azure'
+  block:
+    - name: Ensure hub Azure storage settings are valid
+      ansible.builtin.assert:
+        that:
+          - (aap_ocp_install_hub['object_storage_azure_secret']) is defined
+        quiet: true
+  rescue:
+    - name: Update validation errors fact - Azure secret
+      ansible.builtin.set_fact:
+        __aap_ocp_install_prevalidate_errors: >
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_hub['object_storage_azure_secret'] must be the name of a valid Azure storage secret name" }}
 ...
