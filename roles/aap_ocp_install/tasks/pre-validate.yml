@@ -26,7 +26,8 @@
     - name: Update validation errors fact - username
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
-          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_connection['username'] or aap_ocp_install_connection['password'] must not be set when aap_ocp_install_connection['api_key'] is set"] }}
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_connection['username'] or aap_ocp_install_connection['password'] must not be set when aap_ocp_install_connection['api_key']
+          is set"] }}
 
 - name: Ensure OpenShift API token variable is set (block)
   when: aap_ocp_install_connection['api_key'] is defined
@@ -84,7 +85,8 @@
     - name: Update validation errors fact - namespace
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
-          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_namespace must be a lowercase RFC 1123 label consisting of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc'"] }}
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_namespace must be a lowercase RFC 1123 label consisting of lower case alphanumeric characters
+          or '-', and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc'"] }}
 
 - name: Ensure operator variables are set
   ansible.builtin.include_tasks:
@@ -129,6 +131,12 @@
     file: pre-validate-eda.yml
   when:
     - (( 'eda' in ansible_run_tags ) or ( 'all' in ansible_run_tags and aap_ocp_install_eda is defined )) and not __aap_ocp_install_25_install
+
+- name: Ensure eda variables are set
+  ansible.builtin.include_tasks:
+    file: pre-validate-eda.yml
+  when:
+    - ( 'eda' in ansible_run_tags ) or ( 'all' in ansible_run_tags and aap_ocp_install_eda is defined )
 
 - name: Ensure no validation errors found
   ansible.builtin.debug:

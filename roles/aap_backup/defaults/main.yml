@@ -4,5 +4,5 @@
 ############################################################
 
 # Default backup vars, these are default from installer
-aap_backup_dest: '/var/tmp'
+aap_backup_dest: /var/tmp
 ...

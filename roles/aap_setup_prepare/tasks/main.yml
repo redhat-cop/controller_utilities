@@ -2,13 +2,13 @@
 # tasks file for aap_setup_prepare
 
 # we check first so that the installation can happen without root access
-- name: Check if the absolutely necessary packages are installed  # noqa command-instead-of-module
+- name: Check if the absolutely necessary packages are installed # noqa command-instead-of-module
   ansible.builtin.command:
-    cmd: "rpm -q {{ __aap_setup_prep_required_packages | join(' ') }}"
+    cmd: rpm -q {{ __aap_setup_prep_required_packages | join(' ') }}
   register: __aap_setup_prep_packages_result
   ignore_errors: true
   changed_when: false
-  check_mode: false  # run this command even in check mode
+  check_mode: false # run this command even in check mode
 
 - name: Install absolutely necessary packages
   ansible.builtin.dnf:
@@ -23,7 +23,7 @@
     dest: "{{ aap_setup_prep_working_dir }}"
     list_files: true
     remote_src: true
-    exclude: "inventory"
+    exclude: inventory
   register: __aap_setup_prep_extract
 
 - name: Set aap_setup_prep_setup_dir
@@ -39,6 +39,6 @@
 
 - name: Apply relevant fixes / workarounds
   ansible.builtin.include_tasks:
-    file: "fixes/{{ item }}.yml"
+    file: fixes/{{ item }}.yml
   loop: "{{ aap_setup_prep_fixes }}"
 ...

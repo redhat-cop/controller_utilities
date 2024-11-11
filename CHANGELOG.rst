@@ -4,6 +4,21 @@ infra.aap\_Utilities Release Notes
 
 .. contents:: Topics
 
+v2.5.2
+======
+
+Minor Changes
+-------------
+
+- Added ability to download the containerized installer.
+- Added ability to install EDA Controller on OCP
+- Tweaked how the installer to download is choosen, this should have no effective changes.
+
+Bugfixes
+--------
+
+- Fixed an issue where where download would error trying to download a second version of the installer.
+
 v2.5.1
 ======
 

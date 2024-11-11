@@ -4,7 +4,7 @@
 - name: Git_users | add client user to group - {{ git_server_user }}
   ansible.builtin.user:
     name: "{{ client_item.name }}"
-    groups: "{{ git_server_user }}"  # group has been created with the user of same name
+    groups: "{{ git_server_user }}" # group has been created with the user of same name
     append: true
     generate_ssh_key: true
     ssh_key_type: "{{ client_item.ssh_key_type | default(omit) }}"

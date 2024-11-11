@@ -8,9 +8,8 @@
   tags:
     - always
 
-- name: "Openshift deployment tasks"
+- name: Openshift deployment tasks
   block:
-
     - name: Include OpenShift initialization tasks
       ansible.builtin.include_tasks:
         file: initialization.yml
@@ -71,7 +70,6 @@
         - eda
 
   always:
-
     - name: Include OpenShift finalization tasks
       ansible.builtin.include_tasks:
         file: finalization.yml
@@ -80,5 +78,4 @@
             - always
       tags:
         - always
-
 ...

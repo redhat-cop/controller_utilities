@@ -1,11 +1,15 @@
 {# output all the hosts and their groups #}
 
 {% for group_key in aap_setup_prep_inv_nodes %}
+
+{%if group_key in groups %}
 [{{ group_key }}]
 {% for node_key in aap_setup_prep_inv_nodes[group_key] %}
 {{ node_key }}{% if aap_setup_prep_inv_nodes[group_key][node_key] is defined %} {{ aap_setup_prep_inv_nodes[group_key][node_key] }}{% endif %}
 
 {% endfor %}
+
+{% endif %}
 
 {% endfor %}
 

@@ -53,3 +53,17 @@ releases:
     fragments:
     - api_key.yml
     release_date: '2024-06-05'
+  2.5.2:
+    changes:
+      bugfixes:
+      - Fixed an issue where where download would error trying to download a second
+        version of the installer.
+      minor_changes:
+      - Added ability to download the containerized installer.
+      - Added ability to install EDA Controller on OCP
+      - Tweaked how the installer to download is choosen, this should have no effective
+        changes.
+    fragments:
+    - add_eda_install_on_ocp.yaml
+    - download_fix_and_update.yml
+    release_date: '2024-07-09'

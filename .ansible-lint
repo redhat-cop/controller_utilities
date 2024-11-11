@@ -5,16 +5,13 @@
 # exclude_paths:
 #   - roles/master_role_example/
 exclude_paths:
-  - '.github/'
-  - 'changelogs/'
+  - .github/
+  - changelogs/
 parseable: true
 use_default_rules: true
 # https://github.com/ansible/ansible-lint/issues/808
 #  with verbosity set to 1, its dumping 'unknown file type messages'
 # verbosity: 1
 skip_list:
-  - meta-runtime
   - var-naming[no-role-prefix]
-warn_list:
-  - jinja[invalid]  # Temporarily adding this due to https://github.com/ansible/ansible-lint/issues/3048
 ...

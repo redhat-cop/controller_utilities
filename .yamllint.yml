@@ -4,7 +4,12 @@ extends: default
 rules:
   # 80 chars should be enough, but don't fail if a line is longer
   line-length: disable
+  braces:
+    max-spaces-inside: 1
   colons: disable
+  comments:
+    min-spaces-from-content: 1
+  comments-indentation: disable
   indentation:
     level: warning
     # Require indentation https://redhat-cop.github.io/automation-good-practices/#_yaml_and_jinja2_syntax
@@ -13,8 +18,11 @@ rules:
     level: error
     # Allow only YAML 1.2 booleans https://redhat-cop.github.io/automation-good-practices/#_yaml_and_jinja2_syntax
     allowed-values:
-      - 'true'
-      - 'false'
+      - "true"
+      - "false"
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
   # Enabling yamllint check based on PR #35
   document-end: enable
 ...

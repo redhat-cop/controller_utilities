@@ -37,5 +37,4 @@
     - __aap_certs_eda_dir.stat.exists
     - aap_certs_eda_ssl_cert is defined or aap_certs_eda_ssl_cert_content is defined
     - aap_certs_eda_ssl_key is defined or aap_certs_eda_ssl_key_content is defined
-
 ...

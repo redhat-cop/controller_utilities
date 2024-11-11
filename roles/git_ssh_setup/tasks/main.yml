@@ -14,16 +14,16 @@
 - name: Ensure git user exists and uses git-shell
   ansible.builtin.user:
     name: "{{ git_server_user }}"
-    comment: "Git server user"
+    comment: Git server user
     shell: /usr/bin/git-shell
 
 - name: Define projects directory variable
   ansible.builtin.set_fact:
-    full_projects_dir: "/home/{{ git_server_user }}/{{ git_projects_dir }}"
+    full_projects_dir: /home/{{ git_server_user }}/{{ git_projects_dir }}
 
 - name: Ensure home directory exists and has the correct access rights
   ansible.builtin.file:
-    path: "/home/{{ git_server_user }}"
+    path: /home/{{ git_server_user }}
     owner: "{{ git_server_user }}"
     group: "{{ git_server_user }}"
     mode: ug+rX
@@ -39,7 +39,7 @@
 
 - name: Create empty bare repositories if missing
   ansible.builtin.command:
-    cmd: git init --bare --shared=group {{ full_projects_dir }}/{{ item }}.git  # noqa command-instead-of-module
+    cmd: git init --bare --shared=group {{ full_projects_dir }}/{{ item }}.git # noqa command-instead-of-module
     creates: "{{ full_projects_dir }}/{{ item }}.git"
   become: true
   become_user: "{{ git_server_user }}"

@@ -3,7 +3,7 @@
 
 - name: Apply relevant fixes / workarounds
   ansible.builtin.include_tasks:
-    file: "fixes/{{ item }}.yml"
+    file: fixes/{{ item }}.yml
   loop: "{{ aap_setup_inst_fixes }}"
 
 - name: Install AAP

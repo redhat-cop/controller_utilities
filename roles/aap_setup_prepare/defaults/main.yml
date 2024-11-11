@@ -32,7 +32,6 @@ aap_setup_prep_process_template: true
 # (and the secret ones placed in a vault)
 aap_setup_prep_inv_vars: {}
 aap_setup_prep_inv_secrets: {}
-
 # aap_setup_prep_inv_vars:  # and/or _secrets
 #   all:
 #     # workaround to avoid enabling the codeready repo on the autohub server

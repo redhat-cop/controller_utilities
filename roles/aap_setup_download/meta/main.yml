@@ -6,14 +6,13 @@ galaxy_info:
 
   license: GPL-3.0-or-later
 
-  min_ansible_version: 2.14.0
+  min_ansible_version: 2.15.0
 
   platforms:
     - name: EL
       versions:
         - "8"
 
-  galaxy_tags: ['aap', 'ansible']
-
+  galaxy_tags: [aap, ansible]
 dependencies: []
 ...

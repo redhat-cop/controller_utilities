@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  author: "Andrew J. Huffman"
-  description: "An Ansible role to configure Ansible Controller nodes to manage Windows systems."
-  company: "Red Hat"
+  author: Andrew J. Huffman
+  description: An Ansible role to configure Ansible Controller nodes to manage Windows systems.
+  company: Red Hat
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -17,7 +17,7 @@ galaxy_info:
   # - CC-BY
   license: GPL-3.0-or-later
 
-  min_ansible_version: 2.14.0
+  min_ansible_version: 2.15.0
 
   # Optionally specify the branch Galaxy will use when accessing the GitHub
   # repo for this role. During role install, if no tags are available,
@@ -33,9 +33,9 @@ galaxy_info:
   # platform on this list, let us know and we'll get it added!
   #
   platforms:
-    - name: "EL"
+    - name: EL
       versions:
-        - "all"
+        - all
         #   - 5
         #   - 6
         # - name: GenericUNIX
@@ -149,14 +149,14 @@ galaxy_info:
         #   - any
 
   galaxy_tags:
-    - "ansiblecontroller"
-    - "controller"
-    - "awx"
-    - "configuration"
-    - "system"
-    - "kerberos"
-    - "pywinrm"
-    - "winrm"
+    - ansiblecontroller
+    - controller
+    - awx
+    - configuration
+    - system
+    - kerberos
+    - pywinrm
+    - winrm
     # List tags for your role here, one per line. A tag is
     # a keyword that describes and categorizes the role.
     # Users find roles by searching for tags. Be sure to
@@ -166,7 +166,4 @@ galaxy_info:
     # alphanumeric characters. Maximum 20 tags per role.
 
 dependencies: []
-# List your role dependencies here, one per line.
-# Be sure to remove the '[]' above if you add dependencies
-# to this list.
 ...
