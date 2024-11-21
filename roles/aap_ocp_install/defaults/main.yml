@@ -29,8 +29,10 @@
 #   instance_name:
 #   link_text:
 #   storage_type:
-#   storage_class:
-#   storage_size:
+#   file_storage_storage_class:
+#   file_storage_size:
+#   object_storage_s3_secret:
+#   object_storage_azure_secret:
 
 # Variable applicable to the EDA installation
 # aap_ocp_install_eda:
@@ -40,6 +42,6 @@
 #   link_text:
 
 # Variables applicable to the Lightspeed installation
-# aap_ocp_install_lightspeed
+# aap_ocp_install_lightspeed:
 #   
 ...

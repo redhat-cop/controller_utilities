@@ -20,6 +20,9 @@ A description of the settable variables for this role should go here, including 
 | aap_ocp_install_operator                     | Yes*     | None          | YAML Manifest to override the generated operator `Namespace` resource                        |
 | aap_ocp_install_controller                   | Yes*     | None          | Dictionary containing keys defined in the `controller variables table`                       |
 | aap_ocp_install_hub                          | Yes*     | None          | Dictionary containing keys defined in the `hub variables table`                              |
+| aap_ocp_install_eda                          | Yes*     | None          | Dictionary containing keys defined in the `eda variables table`                              |
+| aap_ocp_install_platform                     | Yes*     | None          | Dictionary containing keys defined in the `platform variables table`                         |
+| aap_ocp_install_lightspeed                   | No       | None          | Indicates whether to install the Lightspeed component in an AAP platform installation        |
 
 \* Variable and required keys must be defined when the type of tag is specified (e.g. `--tags controller` requires the aap_ocp_install_controller variable be defined).
 If the variable is omitted the corresponding component will not be installed (e.g. if only aap_ocp_install_hub variable is defined then the operator and controller installation will be skipped)
@@ -40,11 +43,13 @@ If the variable is omitted the corresponding component will not be installed (e.
 
 | Key Name                         | Required  | Default Value | Description                                                         |
 |----------------------------------|:---------:|---------------|---------------------------------------------------------------------|
-| channel                          | Yes       | None          | Channel to subscribe (e.g. stable-2.2 or stable-2.2-cluster-scoped) |
+| channel                          | Yes       | None          | Channel to subscribe (e.g. stable-2.2 or stable-2.2-cluster-scoped)*|
 | approval                         |           | Automatic     | Update approval method. Valid values are Automatic or Manual.       |
 | operatorgroup_create             |           | true          | Create the `OperatorGroup` for the Operator                         |
 | operatorgroup_manifest_overrides |           |               | YAML Manifest to override the generated `OperatorGroup` resource    |
 | subscription_manifest_overrides  |           |               | YAML Manifest to override the generated `Subscription` resource     |
+
+\* If the channel indicates version 2.5 or above of AAP, then the new AAP operator platform installation method will be used.
 
 > ℹ️ **NOTE**
 >
@@ -78,6 +83,13 @@ If the variable is omitted the corresponding component will not be installed (e.
 | link_text                          |          | Automation Hub (<INSTANCE_NAME>) | Text used for creating the OCP application link                   |
 | hub_manifest_overrides             |          | None                             | YAML Manifest to override the generated `AutomationHub` resource  |
 | consolelink_manifest_overrides     |          | None                             | YAML Manifest to override the generated `ConsoleLink` resource    |
+| storage_type                       |          | file                             | Hub storage type (file, S3 or azure)*                             |
+| file_storage_storage_class         |          | None                             | OpenShift StorageClass to use for file storage type for hub*      |
+| file_storage_size                  |          | 10Gi                             | Storage size for file storage type for hub*                       |
+| object_storage_s3_secret           |          | None                             | Name of an OpenShift Secret used to access S3 storage for hub*    |
+| object_storage_azure_secret        |          | None                             | Name of an OpenShift Secret used to access Azure storage for hub* |
+
+\* These settings are only used for installing AAP 2.5 or later.
 
 ### aap_ocp_install_eda keys
 
@@ -89,6 +101,16 @@ If the variable is omitted the corresponding component will not be installed (e.
 | link_text                          |          | EDA Controller (<INSTANCE_NAME>) | Text used for creating the OCP application link |
 | eda_manifest_overrides             |          | None                             | YAML Manifest to override the generated `EDA` resource  |
 | consolelink_manifest_overrides     |          | None                             | YAML Manifest to override the generated `ConsoleLink` resource    |
+
+### aap_ocp_install_platform keys
+
+| Key Name      | Required | Default Value                    | Description                                     |
+|---------------|:--------:|----------------------------------|-------------------------------------------------|
+| instance_name | Yes      | None                             | Name of the AAP Platform instance to create     |
+
+> ℹ️ **NOTE**
+>
+> These settings are only used when installing AAP 2.5 or later. instance_name and link_text values for individual components (hub, controller, eda) will be ignored when using the platform installation method.
 
 ## Dependencies
 
