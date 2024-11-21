@@ -180,7 +180,7 @@
     - name: Update validation errors fact - S3 secret
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
-          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_hub['object_storage_s3_secret'] must be the name of a valid S3 storage secret name" }}
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_hub['object_storage_s3_secret'] must be the name of a valid S3 storage secret name"] }}
 
 - name: Ensure hub Azure storage settings are valid (block)
   when: aap_ocp_install_hub['storage_type'] is defined and aap_ocp_install_hub['storage_type'] == 'azure'
@@ -194,5 +194,5 @@
     - name: Update validation errors fact - Azure secret
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
-          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_hub['object_storage_azure_secret'] must be the name of a valid Azure storage secret name" }}
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_hub['object_storage_azure_secret'] must be the name of a valid Azure storage secret name"] }}
 ...
