@@ -139,9 +139,6 @@
         __aap_ocp_install_prevalidate_errors: >
           {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['projects_storage_size'] must be a number greater than 0 with a size (e.g. 12Gi or 10000M)"] }}
 
-
-
-
 - name: Ensure hub storage type is valid (block)
   when: aap_ocp_install_hub is defined
   block:

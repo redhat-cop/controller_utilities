@@ -44,7 +44,7 @@ spec:
 {% endif %}
     file_storage_size: {{ aap_ocp_install_hub['file_storage_size'] | default('10Gi') }}
 {% elif aap_ocp_install_hub['storage_type'] is defined and aap_ocp_install_hub['storage_type'] == 'S3' %}
-    object_storage_s3_secret: {{ aap_ocp_install_hub['object_storage_s3_secret'] }} 
+    object_storage_s3_secret: {{ aap_ocp_install_hub['object_storage_s3_secret'] }}
 {% elif aap_ocp_install_hub['storage_type'] is defined and aap_ocp_install_hub['storage_type'] == 'azure' %}
     object_storage_azure_secret: {{ aap_ocp_install_hub['object_storage_azure_secret'] }}
 {% endif %}
