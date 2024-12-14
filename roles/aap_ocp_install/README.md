@@ -118,7 +118,9 @@ This role depends on the redhat.openshift and kubernetes.core collections.
 
 ## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too.
+
+The following playbook will install AAP versions 2.4 and earlier:
 
 ```yml
 ---
@@ -141,6 +143,38 @@ Including an example of how to use your role (for instance, with variables passe
       instance_name: automationhub
     aap_ocp_install_eda:
       instance_name: edacontroller
+
+  roles:
+    - infra.aap_utilities.aap_ocp_install
+...
+```
+
+The following playbook will install AAP versions 2.5 and later:
+
+```yml
+---
+- name: Install AAP on OCP playbook 2.5+
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    aap_ocp_install_connection:
+      host: "https://api.crc.testing:6443"
+      username: kubeadmin
+      password: <PASSWORD>
+      validate_certs: false
+    aap_ocp_install_namespace: aap-test
+    aap_ocp_install_operator:
+      channel: "stable-2.5-cluster-scoped"
+    aap_ocp_install_platform:
+      instance_name: automationcontroller
+      namespace: aap-platform
+    aap_ocp_install_controller: true
+    aap_ocp_install_eda: true
+    aap_ocp_install_hub:
+      storage_type: file
+      file_storage_storage_class: my-filestore-rwx
+      file_storage_size: 30Gi
 
   roles:
     - infra.aap_utilities.aap_ocp_install
