@@ -1,7 +1,7 @@
 ---
 - name: Ensure platform instance name variable is set (block)
   block:
-    - name: Ensure paltform instance name variable is set
+    - name: Ensure platform instance name variable is set
       ansible.builtin.assert:
         that:
           - aap_ocp_install_platform['instance_name'] | default('', true) | length > 0
@@ -26,33 +26,33 @@
         __aap_ocp_install_prevalidate_errors: >
           {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['admin_user'] must be a non-empty string"] }}
 
-- name: Ensure controller namespace variable is set (block)
-  when: aap_ocp_install_controller['namespace'] is defined
+- name: Ensure platform namespace variable is valid if set (block)
+  when: aap_ocp_install_platform['namespace'] is defined
   block:
-    - name: Ensure controller namespace variable is set
+    - name: Ensure platform namespace variable is valid
       ansible.builtin.assert:
         that:
-          - aap_ocp_install_controller['namespace'] | default("", true) | regex_search('^[a-z0-9]([-a-z0-9]*[a-z0-9])?$')
+          - aap_ocp_install_platform['namespace'] | default("", true) | regex_search('^[a-z0-9]([-a-z0-9]*[a-z0-9])?$')
         quiet: true
   rescue:
     - name: Update validation errors fact - namespace
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
-          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['namespace'] must be a lowercase RFC 1123 label consisting of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc'"] }}
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_platform['namespace'] must be a lowercase RFC 1123 label consisting of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc'"] }}
 
-- name: Ensure controller link text variable is set (block)
-  when: aap_ocp_install_controller['link_text'] is defined
+- name: Ensure platform link text variable is valid if set (block)
+  when: aap_ocp_install_platform['link_text'] is defined
   block:
-    - name: Ensure controller link text variable is set
+    - name: Ensure platform link text variable is set
       ansible.builtin.assert:
         that:
           - aap_ocp_install_controller['link_text'] | default('', true) | length > 0
         quiet: true
   rescue:
-    - name: Update validation errors fact - controller link_text
+    - name: Update validation errors fact - platform link_text
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
-          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['link_text'] must be a non-empty string"] }}
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_platform['link_text'] must be a non-empty string"] }}
 
 - name: Ensure controller image pull policy is valid (block)
   when: aap_ocp_install_controller['image_pull_policy'] is defined

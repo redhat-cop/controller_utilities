@@ -3,7 +3,7 @@ apiVersion: aap.ansible.com/v1alpha1
 kind: AnsibleAutomationPlatform
 metadata:
   name: {{ aap_ocp_install_platform['instance_name'] }}
-  namespace: {{ aap_ocp_install_namespace }}
+  namespace: {{ aap_ocp_install_platform['namespace'] | default(aap_ocp_install_namespace) }}
 spec:
   # Platform
   image_pull_policy: IfNotPresent
