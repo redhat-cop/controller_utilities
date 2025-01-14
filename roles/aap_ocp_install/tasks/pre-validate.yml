@@ -105,8 +105,8 @@
 - name: Set a flag indicating whether to use the new (AAP 2.5+) operator installation method
   ansible.builtin.set_fact:
     __aap_ocp_install_25_install: "{{ (__aap_ocp_install_major_version | int) > 2 \
-                                  or (( __aap_ocp_install_major_version | int) == 2 \
-                                  and ( __aap_ocp_install_minor_version | int) >= 5) }}"
+                                  or ((__aap_ocp_install_major_version | int) == 2 \
+                                  and (__aap_ocp_install_minor_version | int) >= 5) }}"
 
 - name: Ensure platform variables are set
   ansible.builtin.include_tasks:

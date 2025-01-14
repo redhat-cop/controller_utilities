@@ -22,10 +22,12 @@ A description of the settable variables for this role should go here, including 
 | aap_ocp_install_hub                          | Yes*     | None          | Dictionary containing keys defined in the `hub variables table`                              |
 | aap_ocp_install_eda                          | Yes*     | None          | Dictionary containing keys defined in the `eda variables table`                              |
 | aap_ocp_install_platform                     | Yes*     | None          | Dictionary containing keys defined in the `platform variables table`                         |
-| aap_ocp_install_lightspeed                   | No       | None          | Indicates whether to install the Lightspeed component in an AAP platform installation        |
+| aap_ocp_install_lightspeed                   | No       | None          | Dictionary containing keys defined in the `lightspeed variables table`                       |
 
 \* Variable and required keys must be defined when the type of tag is specified (e.g. `--tags controller` requires the aap_ocp_install_controller variable be defined).
 If the variable is omitted the corresponding component will not be installed (e.g. if only aap_ocp_install_hub variable is defined then the operator and controller installation will be skipped)
+
+The aap_ocp_install_platform and aap_ocp_install_lightspeed Dictionaries are only used when installing AAP 2.5 or later.
 
 ### aap_ocp_install_connection keys
 
@@ -43,7 +45,7 @@ If the variable is omitted the corresponding component will not be installed (e.
 
 | Key Name                         | Required  | Default Value | Description                                                         |
 |----------------------------------|:---------:|---------------|---------------------------------------------------------------------|
-| channel                          | Yes       | None          | Channel to subscribe (e.g. stable-2.2 or stable-2.2-cluster-scoped)*|
+| channel                          | Yes*      | None          | Channel to subscribe (e.g. stable-2.2 or stable-2.2-cluster-scoped) |
 | approval                         |           | Automatic     | Update approval method. Valid values are Automatic or Manual.       |
 | operatorgroup_create             |           | true          | Create the `OperatorGroup` for the Operator                         |
 | operatorgroup_manifest_overrides |           |               | YAML Manifest to override the generated `OperatorGroup` resource    |
@@ -72,6 +74,13 @@ If the variable is omitted the corresponding component will not be installed (e.
 | link_text                      |          | Automation Controller (<INSTANCE_NAME>) | Text used for creating the OCP application link                                                                        |
 | controller_manifest_overrides  |          | None                           | YAML Manifest to override the generated `AutomationController` resource link                                                                        |
 | consolelink_manifest_overrides |          | None                           | YAML Manifest to override the generated `ConsoleLink` resource                                                                         |
+| install                        | *        | false                                   | Whether or not to install the Controller platform component in AAP 2.5 or later    |
+
+\* These settings are only used for installing AAP 2.5 or later.
+
+> ℹ️ **NOTE**
+>
+> The namespace, instance_name and link_text values will be ignored when using the platform installation method.
 
 ### aap_ocp_install_hub keys
 
@@ -83,13 +92,18 @@ If the variable is omitted the corresponding component will not be installed (e.
 | link_text                          |          | Automation Hub (<INSTANCE_NAME>) | Text used for creating the OCP application link                   |
 | hub_manifest_overrides             |          | None                             | YAML Manifest to override the generated `AutomationHub` resource  |
 | consolelink_manifest_overrides     |          | None                             | YAML Manifest to override the generated `ConsoleLink` resource    |
-| storage_type                       |          | file                             | Hub storage type (file, S3 or azure)*                             |
-| file_storage_storage_class         |          | None                             | OpenShift StorageClass to use for file storage type for hub*      |
-| file_storage_size                  |          | 10Gi                             | Storage size for file storage type for hub*                       |
-| object_storage_s3_secret           |          | None                             | Name of an OpenShift Secret used to access S3 storage for hub*    |
-| object_storage_azure_secret        |          | None                             | Name of an OpenShift Secret used to access Azure storage for hub* |
+| storage_type                       | *        | file                             | Hub storage type (file, S3 or azure)                              |
+| file_storage_storage_class         | *        | None                             | OpenShift StorageClass to use for file storage type for hub       |
+| file_storage_size                  | *        | 10Gi                             | Storage size for file storage type for hub                        |
+| object_storage_s3_secret           | *        | None                             | Name of an OpenShift Secret used to access S3 storage for hub     |
+| object_storage_azure_secret        | *        | None                             | Name of an OpenShift Secret used to access Azure storage for hub  |
+| install                            | *        | false                            | Whether or not to install the Hub platform component in AAP 2.5 or later    |
 
 \* These settings are only used for installing AAP 2.5 or later.
+
+> ℹ️ **NOTE**
+>
+> The namespace, instance_name and link_text values will be ignored when using the platform installation method.
 
 ### aap_ocp_install_eda keys
 
@@ -101,6 +115,13 @@ If the variable is omitted the corresponding component will not be installed (e.
 | link_text                          |          | EDA Controller (<INSTANCE_NAME>) | Text used for creating the OCP application link |
 | eda_manifest_overrides             |          | None                             | YAML Manifest to override the generated `EDA` resource  |
 | consolelink_manifest_overrides     |          | None                             | YAML Manifest to override the generated `ConsoleLink` resource    |
+| install                            | *        | false                            | Whether or not to install the EDA platform component in AAP 2.5 or later    |
+
+\* These settings are only used for installing AAP 2.5 or later.
+
+> ℹ️ **NOTE**
+>
+> The namespace, instance_name and link_text values will be ignored when using the platform installation method.
 
 ### aap_ocp_install_platform keys
 
@@ -110,15 +131,24 @@ If the variable is omitted the corresponding component will not be installed (e.
 
 > ℹ️ **NOTE**
 >
-> These settings are only used when installing AAP 2.5 or later. instance_name and link_text values for individual components (hub, controller, eda) will be ignored when using the platform installation method.
+> These settings are only used when installing AAP 2.5 or later. namespace, instance_name and link_text values for individual components (hub, controller, eda) will be ignored when using the platform installation method.
+
+### aap_ocp_install_lightspeed keys
+
+| Key Name      | Required | Default Value                    | Description                                     |
+|---------------|:--------:|----------------------------------|-------------------------------------------------|
+| install       | No       | false                            | Whether or not to install the platform Lightspeed components  |
+
+> ℹ️ **NOTE**
+>
+> These settings are only used when installing AAP 2.5 or later.
+
 
 ## Dependencies
 
 This role depends on the redhat.openshift and kubernetes.core collections.
 
 ## Example Playbook
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too.
 
 The following playbook will install AAP versions 2.4 and earlier:
 
@@ -169,9 +199,12 @@ The following playbook will install AAP versions 2.5 and later:
     aap_ocp_install_platform:
       instance_name: automationcontroller
       namespace: aap-platform
-    aap_ocp_install_controller: true
-    aap_ocp_install_eda: true
+    aap_ocp_install_controller:
+      install: true
+    aap_ocp_install_eda:
+      install: true
     aap_ocp_install_hub:
+      install: true
       storage_type: file
       file_storage_storage_class: my-filestore-rwx
       file_storage_size: 30Gi
