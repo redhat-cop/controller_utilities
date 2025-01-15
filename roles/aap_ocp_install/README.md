@@ -128,6 +128,8 @@ The aap_ocp_install_platform and aap_ocp_install_lightspeed Dictionaries are onl
 | Key Name      | Required | Default Value                    | Description                                     |
 |---------------|:--------:|----------------------------------|-------------------------------------------------|
 | instance_name | Yes      | None                             | Name of the AAP Platform instance to create     |
+| namespace     |          | None                             | Name of the namespace to create the AAP platform instance in. If not specified `aap_ocp_install_namespace` will be used. |
+| link_text     |          | (<INSTANCE_NAME>)                | Text used for creating the platform OCP application link |
 
 > ℹ️ **NOTE**
 >
