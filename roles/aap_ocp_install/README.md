@@ -143,7 +143,6 @@ The aap_ocp_install_platform and aap_ocp_install_lightspeed Dictionaries are onl
 >
 > These settings are only used when installing AAP 2.5 or later.
 
-
 ## Dependencies
 
 This role depends on the redhat.openshift and kubernetes.core collections.
