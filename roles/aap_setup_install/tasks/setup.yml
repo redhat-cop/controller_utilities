@@ -59,7 +59,6 @@
   ignore_errors: true
   failed_when: false
   when:
-    - "'automationgateway' in aap_setup_prep_inv_nodes"
     - aap_setup_down_version is version('2.5', '>=')
     - not aap_setup_inst_force | bool
 
@@ -68,13 +67,13 @@
     aap_setup_inst_force
     or ('automationcontroller' in aap_setup_prep_inv_nodes
       and (aap_setup_down_version is version('2.5', '>=') |
-      ternary(__aap_setup_inst_gateway_check.json.services.controller.status | default('') != 'good',  __aap_setup_inst_ctl_check.status | default(401) != 200)))
+      ternary(__aap_setup_inst_gateway_check.json.status | default('') != 'good',  __aap_setup_inst_ctl_check.status | default(401) != 200)))
     or ('automationhub' in aap_setup_prep_inv_nodes
       and (aap_setup_down_version is version('2.5', '>=') |
-      ternary(__aap_setup_inst_gateway_check.json.services.hub.status | default('') != 'good',  __aap_setup_inst_ctl_ah.status | default(401) != 200)))
+      ternary(__aap_setup_inst_gateway_check.json.status | default('') != 'good',  __aap_setup_inst_ctl_ah.status | default(401) != 200)))
     or ('automationedacontroller' in aap_setup_prep_inv_nodes
       and (aap_setup_down_version is version('2.5', '>=') |
-      ternary(__aap_setup_inst_gateway_check.json.services.eda.status | default('') != 'good',  __aap_setup_inst_ctl_eda.status | default(401) != 200)))
+      ternary(__aap_setup_inst_gateway_check.json.status | default('') != 'good',  __aap_setup_inst_ctl_eda.status | default(401) != 200)))
   block:
     - name: Copy extra vars files to workspace
       ansible.builtin.copy:
@@ -143,7 +142,7 @@
         - "'automationedacontroller' in aap_setup_prep_inv_nodes"
         - aap_setup_down_version is version('2.5', '<')
 
-    - name: Wait for Automation controller service to be running
+    - name: Wait for Automation Gateway services to be running
       ansible.builtin.uri: # use the first host from the list if no hostname is defined
         url: https://{{ gateway_hostname }}/api/gateway/v1/status/
         method: GET
@@ -152,58 +151,22 @@
         validate_certs: "{{ gateway_validate_certs | default('false') }}"
         force_basic_auth: true
       register: __aap_setup_inst_result_gateway
-      until: __aap_setup_inst_result_gateway.json.services.controller.status == "good"
+      until: __aap_setup_inst_result_gateway.json.status == "good"
       retries: 90
       delay: 10
-      when:
-        - "'automationcontroller' in aap_setup_prep_inv_nodes"
-        - aap_setup_down_version is version('2.5', '>=')
+      when: aap_setup_down_version is version('2.5', '>=')
 
-    - name: Wait for Automation Hub service to be running
+    - name: Wait for Automation Gateway to be running
       ansible.builtin.uri: # use the first host from the list if no hostname is defined
-        url: https://{{ gateway_hostname }}/api/gateway/v1/status/
+        url: https://{{ gateway_hostname }}/api/gateway/v1/ping/
         method: GET
         user: admin
         password: "{{ aap_setup_prep_inv_secrets.all.automationgateway_admin_password | default(aap_setup_prep_inv_vars.all.automationgateway_admin_password) }}"
         validate_certs: "{{ gateway_validate_certs | default('false') }}"
         force_basic_auth: true
       register: __aap_setup_inst_result_gateway
-      until: __aap_setup_inst_result_gateway.json.services.hub.status == "good"
+      until: __aap_setup_inst_result_gateway.json.status == "good"
       retries: 90
       delay: 10
-      when:
-        - "'automationhub' in aap_setup_prep_inv_nodes"
-        - aap_setup_down_version is version('2.5', '>=')
-
-    - name: Wait for EDA controller service to be running
-      ansible.builtin.uri: # use the first host from the list if no hostname is defined
-        url: https://{{ gateway_hostname }}/api/gateway/v1/status/
-        method: GET
-        user: admin
-        password: "{{ aap_setup_prep_inv_secrets.all.automationgateway_admin_password | default(aap_setup_prep_inv_vars.all.automationgateway_admin_password) }}"
-        validate_certs: "{{ gateway_validate_certs | default('false') }}"
-        force_basic_auth: true
-      register: __aap_setup_inst_result_gateway
-      until: __aap_setup_inst_result_gateway.json.services.eda.status == "good"
-      retries: 90
-      delay: 10
-      when:
-        - "'automationedacontroller' in aap_setup_prep_inv_nodes"
-        - aap_setup_down_version is version('2.5', '>=')
-
-    - name: Wait for Automation Gateway service to be running
-      ansible.builtin.uri: # use the first host from the list if no hostname is defined
-        url: https://{{ gateway_hostname }}/api/gateway/v1/status/
-        method: GET
-        user: admin
-        password: "{{ aap_setup_prep_inv_secrets.all.automationgateway_admin_password | default(aap_setup_prep_inv_vars.all.automationgateway_admin_password) }}"
-        validate_certs: "{{ gateway_validate_certs | default('false') }}"
-        force_basic_auth: true
-      register: __aap_setup_inst_result_gateway
-      until: __aap_setup_inst_result_gateway.json.services.gateway.status == "good"
-      retries: 90
-      delay: 10
-      when:
-        - "'automationgateway' in aap_setup_prep_inv_nodes"
-        - aap_setup_down_version is version('2.5', '>=')
+      when: aap_setup_down_version is version('2.5', '>=')
 ...
